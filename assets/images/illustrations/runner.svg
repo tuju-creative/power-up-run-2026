@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 440" role="img" aria-labelledby="runner-title">
+  <title id="runner-title">A runner in an orange shirt mid-stride, with motion lines behind</title>
+  <style>
+    .speed { animation: speed 1.6s ease-in-out infinite alternate; }
+    .speed--2 { animation-delay: -0.5s; }
+    .speed--3 { animation-delay: -1s; }
+    @keyframes speed { from { transform: translateX(0); } to { transform: translateX(-14px); } }
+    @media (prefers-reduced-motion: reduce) { .speed { animation: none; } }
+  </style>
+
+  <!-- backdrop -->
+  <rect x="96" y="56" width="336" height="336" fill="#FFD200"/>
+  <rect x="72" y="80" width="336" height="336" fill="none" stroke="#1E1B18" stroke-width="6"/>
+  <circle cx="352" cy="140" r="52" fill="#F5A623"/>
+  <rect x="40" y="392" width="400" height="12" fill="#1E1B18"/>
+
+  <!-- motion lines -->
+  <g fill="#1E1B18">
+    <rect class="speed" x="24" y="150" width="84" height="8"/>
+    <rect class="speed speed--2" x="48" y="196" width="60" height="8"/>
+    <rect class="speed speed--3" x="16" y="242" width="96" height="8"/>
+  </g>
+
+  <g transform="translate(0 30)">
+  <!-- far limbs -->
+  <g fill="none" stroke="#5A534D" stroke-width="20" stroke-linejoin="miter" stroke-linecap="butt">
+    <polyline points="258,168 210,182 190,224"/>
+    <polyline points="222,244 300,252 286,330"/>
+  </g>
+  <polygon points="268,326 298,326 330,342 268,342" fill="#D2491A"/>
+
+  <!-- torso -->
+  <polygon points="244,146 288,160 246,250 204,234" fill="#E8642A"/>
+  <polygon points="236,176 266,186 252,214 224,204" fill="#FFFBF7"/>
+  <rect x="238" y="190" width="22" height="6" transform="rotate(20 249 193)" fill="#1E1B18"/>
+
+  <!-- head -->
+  <circle cx="282" cy="108" r="28" fill="#1E1B18"/>
+  <polygon points="256,100 308,90 310,104 256,114" fill="#FFD200"/>
+
+  <!-- shorts -->
+  <polygon points="200,226 250,238 254,276 196,266" fill="#D2491A"/>
+
+  <!-- near limbs -->
+  <g fill="none" stroke="#1E1B18" stroke-width="20" stroke-linejoin="miter" stroke-linecap="butt">
+    <polyline points="268,166 318,204 344,166"/>
+    <polyline points="212,252 168,308 108,326"/>
+  </g>
+  <polygon points="92,312 120,308 142,350 100,352" fill="#E8642A"/>
+  </g>
+</svg>

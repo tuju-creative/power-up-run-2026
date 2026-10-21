@@ -1,1 +1,304 @@
-/* category: filled by a later task */
+/* Run category card, how-to-register steps and the registration CTA.
+   Mobile first: everything stacks; the stat row goes 3-up from 48rem, the steps become a
+   horizontal strip from 48rem. Hover transforms live on inner elements; the reveal wrappers
+   own their own transform. */
+
+/* ---- Category card ---- */
+.category-card-wrap {
+  perspective: 1200px;
+  padding-inline-end: 0.75rem; /* room for the hard shadow so it never causes overflow */
+  padding-block-end: 0.75rem;
+}
+
+.category-card {
+  --shadow: 0.75rem;
+  background: var(--color-white);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow) var(--shadow) 0 var(--color-orange);
+  transform-style: preserve-3d;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .category-card:hover {
+    --shadow: 1.25rem;
+    transform: translate(-0.375rem, -0.375rem) rotateX(2deg) rotateY(-2.5deg);
+  }
+}
+
+.category-card:focus-within {
+  --shadow: 1.25rem;
+  transform: translate(-0.375rem, -0.375rem);
+}
+
+.category-card__band {
+  padding: var(--space-5) var(--space-6);
+  background: linear-gradient(100deg, var(--color-orange-deep), var(--color-orange));
+  color: var(--color-white);
+}
+
+.category-card__title {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.category-card__body {
+  display: grid;
+  gap: var(--space-7);
+  padding: var(--space-7) var(--space-6);
+}
+
+.category-card__fee {
+  display: grid;
+  gap: var(--space-2);
+  align-content: center;
+}
+
+.category-card__free {
+  font-family: var(--font-display);
+  font-size: var(--step-6);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-orange-deep);
+  text-shadow: 0.05em 0.05em 0 var(--color-yellow);
+}
+
+.category-card__fee-note {
+  font-size: var(--step-0);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.category-stats {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+}
+
+.category-stat {
+  display: flex;
+  flex-direction: column-reverse; /* label comes first in the source, value is shown on top */
+  gap: var(--space-2);
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--color-line);
+}
+
+.category-stat__label {
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.category-stat__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+}
+
+@media (min-width: 48rem) {
+  .category-card-wrap {
+    padding-inline-end: 1.25rem;
+    padding-block-end: 1.25rem;
+  }
+
+  .category-card {
+    --shadow: 1rem;
+  }
+
+  .category-card__body {
+    padding: var(--space-8) var(--space-7);
+  }
+
+  .category-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .category-stat {
+    padding-inline-start: var(--space-4);
+    padding-block-start: 0;
+    border-block-start: 0;
+    border-inline-start: 4px solid var(--color-orange);
+  }
+
+  .category-stat__value {
+    font-size: var(--step-3);
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 64rem) {
+  .category-card__body {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-8);
+  }
+}
+
+/* ---- How to register ---- */
+.how-to {
+  margin-block-start: var(--space-9);
+}
+
+.how-to__title {
+  margin-block-end: var(--space-7);
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.steps {
+  --steps-gap: var(--space-7);
+  --number-size: 3.5rem;
+  display: grid;
+  gap: var(--steps-gap);
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--number-size) 1fr;
+  column-gap: var(--space-5);
+  align-items: start;
+}
+
+/* Connector to the next step: vertical on phones, horizontal from 48rem. It draws when the
+   list is revealed (only hidden under .js, so it is always visible without JS). */
+.step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: calc(var(--number-size) / 2);
+  left: calc(var(--number-size) / 2 - 2px);
+  width: 4px;
+  height: calc(100% + var(--steps-gap));
+  background: linear-gradient(var(--color-orange), var(--color-amber));
+  transform-origin: top center;
+  transition: transform 700ms var(--ease-out) calc(300ms + var(--i) * 450ms);
+}
+
+.js .steps:not(.is-revealed) .step::before {
+  transform: scaleY(0);
+}
+
+.step__number {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--number-size);
+  height: var(--number-size);
+  background: var(--color-orange-deep);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1;
+  box-shadow: 0 0 0 0 var(--color-ink);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.step__body {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  padding-block-start: var(--space-1);
+}
+
+.step__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-block-end: var(--space-2);
+  border: 2px solid var(--color-ink);
+  background: var(--color-white);
+  color: var(--color-ink);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.step__icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.step__title {
+  font-size: var(--step-1);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.step__text {
+  max-width: 34ch;
+  color: var(--color-ink-soft);
+}
+
+.step:hover .step__number {
+  transform: translate(-3px, -3px);
+  box-shadow: 4px 4px 0 var(--color-ink);
+}
+
+.step:hover .step__icon {
+  transform: translateY(-3px);
+  background: var(--color-yellow);
+}
+
+@media (min-width: 48rem) {
+  .steps {
+    --steps-gap: var(--space-7);
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--steps-gap);
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5);
+  }
+
+  .step:not(:last-child)::before {
+    left: calc(var(--number-size) / 2);
+    top: calc(var(--number-size) / 2 - 2px);
+    width: calc(100% + var(--steps-gap));
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-orange), var(--color-amber));
+    transform-origin: left center;
+  }
+
+  .js .steps:not(.is-revealed) .step::before {
+    transform: scaleX(0);
+  }
+
+  .step__body {
+    padding-block-start: 0;
+  }
+}
+
+/* ---- CTA ---- */
+.registration__cta {
+  display: flex;
+  margin-block-start: var(--space-8);
+  padding-inline-start: 0.75rem; /* offsets the skew so the button's left edge looks aligned */
+}

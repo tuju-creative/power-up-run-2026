@@ -138,7 +138,80 @@
           <p class="section-heading__eyebrow">Join the run</p>
           <h2 class="section-heading__title" id="registration-title">Run Category</h2>
         </div>
-        <!-- content: Task 3 -->
+
+        <div class="category-card-wrap" data-controller="reveal">
+          <article class="category-card" aria-labelledby="category-title">
+            <header class="category-card__band">
+              <h3 class="category-card__title" id="category-title">5KM Fun Run</h3>
+            </header>
+            <div class="category-card__body">
+              <div class="category-card__fee">
+                <p class="category-card__free">Free</p>
+                <p class="category-card__fee-note">Registration fee: FOC</p>
+              </div>
+              <dl class="category-stats">
+                <div class="category-stat">
+                  <dt class="category-stat__label">Runners</dt>
+                  <dd class="category-stat__value"><span data-controller="count-up" data-count-up-to="1000">1000</span></dd>
+                </div>
+                <div class="category-stat">
+                  <dt class="category-stat__label">Registration</dt>
+                  <dd class="category-stat__value">2&ndash;16 Nov</dd>
+                </div>
+                <div class="category-stat">
+                  <dt class="category-stat__label">Confirmation</dt>
+                  <dd class="category-stat__value">Email / QR</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        </div>
+
+        <div class="how-to">
+          <h3 class="how-to__title" data-controller="reveal">How to register</h3>
+          <ol class="steps" data-controller="reveal" data-reveal-delay="100">
+            <li class="step" style="--i: 0">
+              <span class="step__number" aria-hidden="true">1</span>
+              <div class="step__body">
+                <span class="step__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter"><rect x="5" y="5" width="14" height="10"/><path d="M2 19h20M9 19l.5-4h5l.5 4"/></svg>
+                </span>
+                <h4 class="step__title">Register on Luma</h4>
+                <p class="step__text">Sign up for the free 5KM Fun Run on Luma between 2 and 16 November.</p>
+              </div>
+            </li>
+            <li class="step" style="--i: 1">
+              <span class="step__number" aria-hidden="true">2</span>
+              <div class="step__body">
+                <span class="step__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter"><rect x="3" y="5" width="18" height="14"/><path d="m3 7 9 6.5L21 7"/></svg>
+                </span>
+                <h4 class="step__title">Receive email + QR</h4>
+                <p class="step__text">Your confirmation and personal QR code arrive in your inbox.</p>
+              </div>
+            </li>
+            <li class="step" style="--i: 2">
+              <span class="step__number" aria-hidden="true">3</span>
+              <div class="step__body">
+                <span class="step__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="miter"><path d="M6 21V3M6 4h13l-3 4.5 3 4.5H6"/></svg>
+                </span>
+                <h4 class="step__title">Show QR on race day</h4>
+                <p class="step__text">Bring your QR code to KTPC Office, Kulim on 4 December and get running.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="registration__cta" data-controller="reveal">
+          <a class="button button--primary" href="https://luma.com/" target="_blank" rel="noopener" data-registration-link>
+            <span class="button__content">
+              <span class="button__label">Register on Luma</span>
+              <svg class="button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+              <span class="visually-hidden">(opens in a new tab)</span>
+            </span>
+          </a>
+        </div>
       </div>
     </section>
     <!-- END section: registration -->
@@ -149,8 +222,38 @@
         <div class="section-heading" data-controller="reveal">
           <p class="section-heading__eyebrow">Race day</p>
           <h2 class="section-heading__title" id="event-details-title">Event Details</h2>
+          <p class="event-details__subline"><time datetime="2026-12-04">Friday, 4 December 2026</time> &middot; KTPC Office, Kulim</p>
         </div>
-        <!-- content: Task 3 -->
+
+        <div class="event-details">
+          <!-- Rendered statically: keep in sync with EVENT.schedule in assets/javascripts/config/event.js -->
+          <ol class="timeline" data-controller="reveal">
+            <li class="timeline__item" style="--i: 0">
+              <span class="timeline__node" aria-hidden="true"></span>
+              <time class="timeline__time" datetime="06:00">06:00</time>
+              <p class="timeline__title">Assembly &amp; Warm-up</p>
+            </li>
+            <li class="timeline__item" style="--i: 1">
+              <span class="timeline__node" aria-hidden="true"></span>
+              <time class="timeline__time" datetime="06:30">06:30</time>
+              <p class="timeline__title">5KM Flag Off</p>
+            </li>
+            <li class="timeline__item" style="--i: 2">
+              <span class="timeline__node" aria-hidden="true"></span>
+              <time class="timeline__time" datetime="08:30">08:30</time>
+              <p class="timeline__title">Prize Giving &amp; Lucky Draw</p>
+            </li>
+            <li class="timeline__item" style="--i: 3">
+              <span class="timeline__node" aria-hidden="true"></span>
+              <time class="timeline__time" datetime="11:30">11:30</time>
+              <p class="timeline__title">Grand Finale Concert</p>
+            </li>
+          </ol>
+
+          <div class="event-details__art" data-controller="reveal" data-reveal-delay="150">
+            <img class="event-details__runner" src="assets/images/illustrations/runner.svg" alt="Illustration of a runner in an orange shirt mid-stride" width="480" height="440" loading="lazy">
+          </div>
+        </div>
       </div>
     </section>
     <!-- END section: event_details -->
