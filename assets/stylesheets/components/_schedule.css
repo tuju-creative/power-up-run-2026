@@ -75,6 +75,7 @@
   letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
   color: var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .timeline__title {
@@ -95,10 +96,6 @@
 
 .timeline__item:hover .timeline__time {
   color: var(--color-orange-deep);
-}
-
-.timeline__time {
-  transition: color var(--duration-fast) var(--ease-out);
 }
 
 /* ---- Runner illustration ---- */

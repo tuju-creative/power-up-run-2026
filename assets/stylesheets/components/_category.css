@@ -15,7 +15,6 @@
   background: var(--color-white);
   border: 1px solid var(--color-line);
   box-shadow: var(--shadow) var(--shadow) 0 var(--color-orange);
-  transform-style: preserve-3d;
   transition:
     transform var(--duration-base) var(--ease-out),
     box-shadow var(--duration-base) var(--ease-out);
@@ -26,11 +25,6 @@
     --shadow: 1.25rem;
     transform: translate(-0.375rem, -0.375rem) rotateX(2deg) rotateY(-2.5deg);
   }
-}
-
-.category-card:focus-within {
-  --shadow: 1.25rem;
-  transform: translate(-0.375rem, -0.375rem);
 }
 
 .category-card__band {
@@ -143,11 +137,20 @@
   }
 }
 
-@media (min-width: 64rem) {
+/* FREE only sits beside the stats on wide screens; the stat row needs the room below that. */
+@media (min-width: 90rem) {
   .category-card__body {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: var(--space-8);
+    gap: var(--space-7);
+  }
+
+  .category-stats {
+    gap: var(--space-5);
+  }
+
+  .category-stat__value {
+    font-size: var(--step-2);
   }
 }
 
@@ -179,6 +182,7 @@
   grid-template-columns: var(--number-size) 1fr;
   column-gap: var(--space-5);
   align-items: start;
+  align-content: start; /* keep rows content-sized so icons align across steps of unequal height */
 }
 
 /* Connector to the next step: vertical on phones, horizontal from 48rem. It draws when the
@@ -256,14 +260,16 @@
   color: var(--color-ink-soft);
 }
 
-.step:hover .step__number {
-  transform: translate(-3px, -3px);
-  box-shadow: 4px 4px 0 var(--color-ink);
-}
+@media (hover: hover) {
+  .step:hover .step__number {
+    transform: translate(-3px, -3px);
+    box-shadow: 4px 4px 0 var(--color-ink);
+  }
 
-.step:hover .step__icon {
-  transform: translateY(-3px);
-  background: var(--color-yellow);
+  .step:hover .step__icon {
+    transform: translateY(-3px);
+    background: var(--color-yellow);
+  }
 }
 
 @media (min-width: 48rem) {
