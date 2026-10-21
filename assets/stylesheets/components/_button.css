@@ -1,0 +1,81 @@
+/* Skewed parallelogram button. The label is counter-skewed so text stays upright. */
+.button {
+  --skew: -12deg;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.5rem;
+  padding: 0 var(--space-6);
+  border: 0;
+  background: var(--color-orange-deep);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 1.2rem; /* 19px bold = large text, keeps white-on-orange above 3:1 */
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  transform: skewX(var(--skew));
+  box-shadow: 0 0.75rem 1.5rem -0.75rem var(--color-orange-glow);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.button--primary {
+  background: linear-gradient(100deg, var(--color-orange-deep), var(--color-orange));
+}
+
+.button__content {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  transform: skewX(calc(var(--skew) * -1));
+}
+
+.button__icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+/* Shine sweep */
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, var(--color-shine) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform 700ms var(--ease-out);
+  pointer-events: none;
+}
+
+.button:hover,
+.button:focus-visible {
+  transform: skewX(var(--skew)) translateY(-2px);
+  box-shadow: 0 1.25rem 1.75rem -0.75rem var(--color-orange-glow);
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+  transform: translateX(130%);
+}
+
+.button:hover .button__icon,
+.button:focus-visible .button__icon {
+  transform: translateX(0.35rem);
+}
+
+.button:active {
+  transform: skewX(var(--skew)) translateY(1px) scale(0.97);
+  box-shadow: 0 0.25rem 0.75rem -0.5rem var(--color-orange-glow);
+  transition-duration: 80ms;
+}

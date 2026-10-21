@@ -1,0 +1,66 @@
+.section-heading {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  margin-block-end: var(--space-7);
+}
+
+.section-heading__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.section-heading__eyebrow::before {
+  content: "";
+  width: 0.625rem;
+  height: 0.625rem;
+  background: var(--color-orange);
+}
+
+.section-heading__title {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+/* Animated bar */
+.section-heading::after {
+  content: "";
+  width: 5rem;
+  height: 0.5rem;
+  margin-block-start: var(--space-2);
+  background: linear-gradient(90deg, var(--color-orange), var(--color-amber));
+  transform-origin: left center;
+  transition: transform var(--duration-slow) var(--ease-out) 250ms;
+}
+
+.js .section-heading[data-controller~="reveal"]:not(.is-revealed)::after {
+  transform: scaleX(0);
+}
+
+.section-heading--center {
+  justify-items: center;
+  text-align: center;
+}
+
+.section-heading--center::after {
+  transform-origin: center;
+}
+
+.section-heading--light .section-heading__eyebrow {
+  color: var(--color-on-night-soft);
+}
+
+.section-heading--light .section-heading__title {
+  color: var(--color-paper);
+}

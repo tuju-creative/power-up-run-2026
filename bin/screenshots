@@ -1,0 +1,60 @@
+#!/usr/bin/env sh
+# Headless Chrome screenshots at several widths into tmp/screenshots/, plus console-error and
+# horizontal-overflow checks. Usage: bin/screenshots [path-to-page, default /index.html]
+cd "$(dirname "$0")/.." || exit 1
+
+CHROME="${CHROME:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
+PAGE="${1:-/index.html}"
+OUT="tmp/screenshots"
+mkdir -p "$OUT"
+
+PORT=$(python3 -c 'import socket; s = socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1])')
+python3 -m http.server "$PORT" --bind 127.0.0.1 >/dev/null 2>&1 &
+SERVER_PID=$!
+trap 'kill $SERVER_PID 2>/dev/null' EXIT INT TERM
+sleep 1
+
+PROFILE=$(mktemp -d)
+chrome() {
+  "$CHROME" --headless=new --disable-gpu --hide-scrollbars --no-first-run \
+    --user-data-dir="$PROFILE" "$@"
+}
+
+# Headless Chrome enforces a minimum window width (~500px), so each page is shown in an iframe
+# of the exact width; media queries and IntersectionObserver then see the true viewport.
+for WIDTH in 320 375 768 1440; do
+  cat > "$OUT/frame_$WIDTH.html" <<HTML
+<!doctype html><body style="margin:0;background:#888"><iframe src="$PAGE" style="width:${WIDTH}px;height:4000px;border:0;display:block;background:#fff"></iframe></body>
+HTML
+  chrome --window-size=$((WIDTH > 500 ? WIDTH : 500)),4000 --virtual-time-budget=4000 \
+    --enable-logging=stderr --v=0 \
+    --screenshot="$OUT/w$WIDTH.png" "http://127.0.0.1:$PORT/$OUT/frame_$WIDTH.html" 2> "$OUT/console_$WIDTH.log" >/dev/null
+  echo "w$WIDTH -> $OUT/w$WIDTH.png"
+  grep -E "CONSOLE|Uncaught" "$OUT/console_$WIDTH.log" | sed "s/^/  [w$WIDTH] /"
+done
+
+# Horizontal overflow: load the page in same-origin iframes and compare scrollWidth to width.
+cat > "$OUT/overflow_check.html" <<HTML
+<!doctype html><body><pre id="out">pending</pre><script>
+const widths = [320, 375, 768, 1024, 1440];
+const lines = [];
+let pending = widths.length;
+widths.forEach((w) => {
+  const frame = document.createElement("iframe");
+  frame.style.cssText = "width:" + w + "px;height:900px;border:0;position:absolute;left:-9999px";
+  frame.src = "$PAGE";
+  frame.onload = () => setTimeout(() => {
+    const doc = frame.contentDocument.documentElement;
+    // body clips overflow-x, so also measure the rightmost element edge.
+    const right = Math.ceil(Math.max(...[...frame.contentDocument.querySelectorAll("*")].map((el) => el.getBoundingClientRect().right)));
+    const bad = doc.scrollWidth > w || right > w;
+    lines.push("OVERFLOW_CHECK " + w + " scrollWidth=" + doc.scrollWidth + " rightmost=" + right + (bad ? " FAIL" : " ok"));
+    if (--pending === 0) document.getElementById("out").textContent = lines.sort().join("\n");
+  }, 500);
+  document.body.appendChild(frame);
+});
+</script></body>
+HTML
+chrome --window-size=800,600 --virtual-time-budget=6000 --dump-dom \
+  "http://127.0.0.1:$PORT/$OUT/overflow_check.html" 2>/dev/null | grep -o 'OVERFLOW_CHECK [0-9]* scrollWidth=[0-9]* rightmost=[0-9]* [A-Za-z]*'
+rm -rf "$PROFILE"

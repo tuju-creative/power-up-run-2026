@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+# Serve the site from the repo root: http://localhost:8000 (override with PORT=...)
+cd "$(dirname "$0")/.." || exit 1
+exec python3 -m http.server "${PORT:-8000}"

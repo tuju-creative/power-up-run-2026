@@ -1,0 +1,59 @@
+:root {
+  /* Colour */
+  --color-orange: #E8642A;
+  --color-orange-deep: #D2491A;
+  --color-amber: #F5A623;
+  --color-yellow: #FFD200;
+  --color-paper: #FFFBF7;
+  --color-ink: #1E1B18;
+  --color-ink-soft: #5A534D;
+  --color-line: #EADFD6;
+  --color-night: #141210; /* footer and countdown dial faces */
+  --color-white: #FFFFFF;
+  --color-on-night-soft: #CFC6BE;
+  --color-night-line: #2E2924;
+  --color-orange-glow: rgb(232 100 42 / 0.45);
+  --color-shine: rgb(255 255 255 / 0.5);
+
+  /* Type */
+  --font-display: "Anton", Impact, "Arial Narrow Bold", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.45rem, 1.25rem + 0.95vw, 2rem);
+  --step-3: clamp(1.75rem, 1.4rem + 1.75vw, 2.75rem);
+  --step-4: clamp(2.1rem, 1.5rem + 3vw, 4rem);
+  --step-5: clamp(2.6rem, 1.6rem + 5vw, 5.5rem);
+  --step-6: clamp(3.2rem, 1.8rem + 7vw, 8rem);
+
+  /* Space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --space-6: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  --space-7: clamp(2.5rem, 2rem + 2vw, 4rem);
+  --space-8: clamp(4rem, 3rem + 4vw, 6rem);
+  --space-9: clamp(6rem, 12vw, 11rem);
+
+  /* Layout */
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --container-max: 72rem;
+  --measure: 60ch;
+  --nav-height: 4.5rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-base: 450ms;
+  --duration-slow: 900ms;
+}
+
+@media (min-width: 90rem) {
+  :root {
+    --container-max: 80rem;
+  }
+}

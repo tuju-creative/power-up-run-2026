@@ -1,0 +1,270 @@
+/* Without JS: brand plus a wrapping row of links. With JS (html.js): full-screen overlay menu
+   below 64rem, inline links from 64rem. */
+.nav {
+  position: relative; /* no JS: sits in the flow so wrapped links never cover content */
+  z-index: 50;
+  background: var(--color-paper);
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.js .nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  background: transparent;
+}
+
+.js .nav.is-scrolled {
+  background: var(--color-paper);
+  box-shadow: 0 1px 0 var(--color-line);
+}
+
+.nav__bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-5);
+  min-height: var(--nav-height);
+  padding-block: var(--space-2);
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.nav__brand-mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0.25rem;
+  background: var(--color-orange);
+  color: var(--color-white);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.nav__brand:hover .nav__brand-mark,
+.nav__brand:focus-visible .nav__brand-mark {
+  transform: translateY(-3px);
+}
+
+/* Burger (JS only) */
+.nav__toggle {
+  position: relative;
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.js .nav__toggle {
+  display: block;
+}
+
+.nav__toggle-bar {
+  position: absolute;
+  left: 0.6875rem;
+  width: 1.375rem;
+  height: 2px;
+  background: var(--color-ink);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.nav__toggle-bar:nth-child(1) {
+  top: 1.0625rem;
+}
+
+.nav__toggle-bar:nth-child(2) {
+  top: 1.6875rem;
+}
+
+.nav__toggle:hover .nav__toggle-bar {
+  background: var(--color-orange-deep);
+}
+
+.nav.is-open .nav__toggle-bar:nth-child(1) {
+  transform: translateY(0.3125rem) rotate(45deg);
+}
+
+.nav.is-open .nav__toggle-bar:nth-child(2) {
+  transform: translateY(-0.3125rem) rotate(-45deg);
+}
+
+/* Menu: no-JS base is a plain wrapping row */
+.nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0.4rem 0;
+  height: 3px;
+  background: var(--color-orange);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.nav__link:hover,
+.nav__link:focus-visible {
+  color: var(--color-orange-deep);
+}
+
+.nav__link:hover::after,
+.nav__link:focus-visible::after,
+.nav__link[aria-current="true"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Overlay menu on small screens */
+.js .nav__menu {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* inside .nav__bar's stacking context: under the brand and burger */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--nav-height) + var(--space-5)) var(--gutter) var(--space-7);
+  background: var(--color-paper);
+  overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-100%);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    visibility 0s linear var(--duration-base);
+}
+
+.js .nav.is-open .nav__menu {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.js .nav__list {
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.js .nav__link {
+  min-height: 3.5rem;
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.js .nav__link::after {
+  inset: auto auto 0.25rem 0;
+  width: 4rem;
+  height: 4px;
+}
+
+.js .nav__item {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+.js .nav.is-open .nav__item {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(150ms + var(--i, 0) * 60ms);
+}
+
+.nav__item:nth-child(2) { --i: 1; }
+.nav__item:nth-child(3) { --i: 2; }
+.nav__item:nth-child(4) { --i: 3; }
+.nav__item:nth-child(5) { --i: 4; }
+
+@media (min-width: 64rem) {
+  .nav__bar {
+    flex-wrap: nowrap;
+  }
+
+  .nav__toggle,
+  .js .nav__toggle {
+    display: none;
+  }
+
+  .nav__list,
+  .js .nav__list {
+    flex-direction: row;
+    gap: 0 var(--space-6);
+  }
+
+  .js .nav__menu {
+    position: static;
+    inset: auto;
+    display: block;
+    padding: 0;
+    background: transparent;
+    overflow: visible;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .js .nav__item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .nav__link,
+  .js .nav__link {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  .js .nav__link {
+    min-height: 2.75rem;
+  }
+
+  .js .nav__link::after {
+    inset: auto 0 0.4rem 0;
+    width: auto;
+    height: 3px;
+  }
+}
