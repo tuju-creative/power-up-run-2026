@@ -15,12 +15,13 @@
   transition: border-color var(--duration-fast) var(--ease-out);
 }
 
-/* Orange bar, drawn in from the top when the row opens. */
+/* Orange bar, drawn in from the top when the row opens. It sits inside the padding box so the
+   overflow clip during the height animation never cuts it. */
 .faq-item::before {
   content: "";
   position: absolute;
-  inset-block: -1px;
-  inset-inline-start: -1px;
+  inset-block: 0;
+  inset-inline-start: 0;
   width: 0.375rem;
   background: var(--color-orange);
   transform: scaleY(0);

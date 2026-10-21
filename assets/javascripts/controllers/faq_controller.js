@@ -37,11 +37,10 @@ export default class FaqController {
   }
 
   open(item) {
-    const summary = item.querySelector("summary")
-    const from = this.currentHeight(item) ?? summary.offsetHeight
+    // The item's own height (borders included) while closed, so there is no jump at the start.
+    const from = this.currentHeight(item) ?? item.offsetHeight
     this.cancel(item)
     item.open = true
-    item.dataset.state = "opening"
     if (this.reducedMotion.matches) return this.settle(item)
 
     item.style.overflow = "hidden"
@@ -60,7 +59,9 @@ export default class FaqController {
 
     item.dataset.state = "closing"
     item.style.overflow = "hidden"
-    this.run(item, from, summary.offsetHeight, () => {
+    // Closed height = summary plus the item's borders.
+    const to = summary.offsetHeight + (item.offsetHeight - item.clientHeight)
+    this.run(item, from, to, () => {
       item.open = false
       this.settle(item)
     })
