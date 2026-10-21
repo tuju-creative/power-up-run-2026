@@ -6,15 +6,15 @@
    their --x / --y are shares of the 800x600 viewBox. */
 
 .route-map {
-  /* Map palette. Park and water greens/blues have no site token; they are scoped here. */
+  /* Map palette, aliased from the tokens. */
   --map-ground: color-mix(in srgb, var(--color-line) 30%, var(--color-white));
   --map-block: var(--color-line);
   --map-road: color-mix(in srgb, var(--color-ink-soft) 24%, var(--color-white));
-  --map-park: #DCEBCB;
-  --map-tree: #BFDCA6;
-  --map-water: #C3E0EE;
-  --map-water-edge: #9CCBE2;
-  --map-water-ink: #2F7FB3;
+  --map-park: var(--color-park);
+  --map-tree: var(--color-tree);
+  --map-water: var(--color-water);
+  --map-water-edge: var(--color-water-edge);
+  --map-water-ink: var(--color-water-ink);
 
   display: grid;
   gap: var(--space-7);
@@ -44,7 +44,8 @@
   transform-origin: 50% 65%;
 }
 
-.route-map__stage.is-live .route-map__plane {
+/* Only while it is still tilted; the settled map drops its layer. */
+.route-map__stage.is-tilted .route-map__plane {
   will-change: transform;
 }
 

@@ -108,6 +108,7 @@ export default class RouteMapController {
     const offset = drawOffset(progress, this.length)
     this.strokes.forEach((stroke) => { stroke.style.strokeDashoffset = offset })
     this.markers.forEach(({ element, at }) => element.classList.toggle("is-passed", progress >= at))
+    this.element.classList.toggle("is-tilted", progress < 1)
     this.element.classList.toggle("is-running", progress >= 1)
   }
 
@@ -132,6 +133,6 @@ export default class RouteMapController {
       stroke.style.removeProperty("stroke-dasharray")
       stroke.style.removeProperty("stroke-dashoffset")
     })
-    this.element.classList.remove("is-live", "is-running", "is-paused")
+    this.element.classList.remove("is-live", "is-tilted", "is-running", "is-paused")
   }
 }

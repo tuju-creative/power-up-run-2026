@@ -14,6 +14,11 @@
   --color-night-line: #2E2924;
   --color-orange-glow: rgb(232 100 42 / 0.45);
   --color-shine: rgb(255 255 255 / 0.5);
+  --color-park: #DCEBCB; /* route map parks */
+  --color-tree: #BFDCA6;
+  --color-water: #C3E0EE; /* route map lake and water station */
+  --color-water-edge: #9CCBE2;
+  --color-water-ink: #2F7FB3;
 
   /* Type */
   --font-display: "Anton", Impact, "Arial Narrow Bold", sans-serif;
