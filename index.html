@@ -53,14 +53,81 @@
 
   <main id="main">
     <!-- BEGIN section: hero -->
-    <section class="section" id="home" aria-labelledby="home-title">
-      <div class="container">
-        <div class="section-heading" data-controller="reveal">
-          <p class="section-heading__eyebrow">4 December 2026</p>
-          <h1 class="section-heading__title" id="home-title">Power Up Run 2026</h1>
-        </div>
-        <!-- content: Task 2 -->
+    <section class="hero" id="home" aria-labelledby="home-title" data-tilt-area>
+      <div class="hero__waves" aria-hidden="true">
+        <canvas class="hero__canvas" data-controller="halftone-waves"></canvas>
       </div>
+
+      <div class="hero__inner container">
+        <div class="hero__brand">
+          <div class="hero__logo-reveal" data-controller="reveal">
+            <div class="hero__logo-stage" data-halftone-clear>
+              <div class="hero__logo" data-controller="tilt">
+                <span class="hero__logo-halo" data-tilt-depth="-70" aria-hidden="true"></span>
+                <span class="hero__logo-shadow" data-tilt-depth="-30" aria-hidden="true"></span>
+                <h1 class="hero__title" id="home-title" data-tilt-depth="30">
+                  <img class="hero__logo-image" src="assets/images/logos/power_up_run_logo.png" alt="Power Up Run 2026 — 04 Dec 2026, KTPC Office, Kulim" width="276" height="274" fetchpriority="high">
+                  <span class="visually-hidden">: a free 5KM Fun Run</span>
+                </h1>
+                <span class="hero__logo-glare" data-tilt-depth="31" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__copy" data-controller="reveal" data-reveal-delay="120" data-halftone-clear>
+            <p class="hero__tagline"><span>Run today.</span> <span>Brighten tomorrow.</span></p>
+            <p class="hero__organisers">Organised by Kulim Technology Park Corporation (KTPC) &amp; NUR Power</p>
+          </div>
+        </div>
+
+        <div class="hero__countdown" data-controller="reveal" data-reveal-delay="240">
+          <div class="countdown" data-controller="countdown">
+            <p class="countdown__heading" data-countdown-heading data-halftone-clear>Registration opens in</p>
+            <ol class="countdown__dials" aria-hidden="true">
+          <li class="dial" data-countdown-unit="days">
+            <svg class="dial__ring" viewBox="0 0 200 200" data-countdown-ring></svg>
+            <span class="dial__value" data-countdown-value>--</span>
+            <span class="dial__label">Days</span>
+          </li>
+          <li class="dial" data-countdown-unit="hours">
+            <svg class="dial__ring" viewBox="0 0 200 200" data-countdown-ring></svg>
+            <span class="dial__value" data-countdown-value>--</span>
+            <span class="dial__label">Hours</span>
+          </li>
+          <li class="dial" data-countdown-unit="minutes">
+            <svg class="dial__ring" viewBox="0 0 200 200" data-countdown-ring></svg>
+            <span class="dial__value" data-countdown-value>--</span>
+            <span class="dial__label">Minutes</span>
+          </li>
+          <li class="dial" data-countdown-unit="seconds">
+            <svg class="dial__ring" viewBox="0 0 200 200" data-countdown-ring></svg>
+            <span class="dial__value" data-countdown-value>--</span>
+            <span class="dial__label">Seconds</span>
+          </li>
+            </ol>
+            <!-- Without JS this line is shown instead of the dials; with JS it is the spoken summary. -->
+            <p class="countdown__summary" aria-live="polite" data-countdown-summary>Registration runs 2&ndash;16 November 2026. Race day is 4 December 2026.</p>
+
+            <div class="hero__cta">
+              <a class="button button--primary hero__button" href="https://luma.com/" target="_blank" rel="noopener" data-registration-link>
+                <span class="button__content">
+                  <span class="button__label" data-countdown-cta-label>Register now</span>
+                  <svg class="button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+                  <span class="visually-hidden">(opens in a new tab)</span>
+                </span>
+              </a>
+              <p class="hero__date">
+                <time class="hero__date-content" datetime="2026-12-04"><span class="hero__date-day">04</span> <span class="hero__date-month">Dec 2026</span></time>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="hero__scroll" href="#registration" data-halftone-clear>
+        <span>Scroll<span class="visually-hidden"> to registration</span></span>
+        <svg class="hero__scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
+      </a>
     </section>
     <!-- END section: hero -->
 

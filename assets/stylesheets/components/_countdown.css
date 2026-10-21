@@ -1,1 +1,203 @@
-/* countdown: filled by a later task */
+/* Countdown: four circular dials, each a night face with a 60-segment SVG ring (built by
+   countdown_controller) and a flipping two-digit number. 2x2 on phones, one row from 48rem. */
+.countdown {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+}
+
+.countdown__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--step--1);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-ink);
+}
+
+.countdown__heading::before,
+.countdown__heading::after {
+  content: "";
+  flex: none;
+  width: 1rem;
+  height: 2px;
+  background: var(--color-orange);
+}
+
+/* Without JS the dials cannot tick: show the dates line instead. With JS that line becomes the
+   visually hidden live summary. */
+.countdown__heading,
+.countdown__dials {
+  display: none;
+}
+
+.countdown__summary {
+  max-width: 34ch;
+  font-weight: 600;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.js .countdown__heading {
+  display: flex;
+}
+
+.js .countdown__dials {
+  display: grid;
+}
+
+.js .countdown__summary {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.countdown__dials {
+  grid-template-columns: repeat(2, minmax(0, min(40vw, 9rem)));
+  justify-content: center;
+  gap: var(--space-4);
+  perspective: 50rem;
+}
+
+.dial {
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  aspect-ratio: 1;
+  container-type: inline-size;
+  border-radius: 50%; /* a true circle */
+  background: radial-gradient(circle at 50% 28%, var(--color-night-line), var(--color-night) 60%);
+  box-shadow:
+    0 0 0 0.3rem var(--color-paper),
+    0 1.25rem 2rem -1rem var(--color-orange-glow);
+  transform: rotateX(8deg);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.dial:hover {
+  transform: rotateX(0deg) translateY(-0.3rem);
+  box-shadow:
+    0 0 0 0.3rem var(--color-paper),
+    0 1.75rem 2.5rem -1rem var(--color-orange-glow);
+}
+
+/* Inner bezel */
+.dial::before {
+  content: "";
+  position: absolute;
+  inset: 23%;
+  border: 1px solid var(--color-night-line);
+  border-radius: 50%;
+}
+
+.dial__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--color-orange); /* inherited if color-mix() is unsupported */
+  overflow: visible;
+}
+
+.dial__segment {
+  fill: var(--color-night-line);
+  transition: fill 350ms var(--ease-out);
+}
+
+/* Lighting up is staggered by segment index, so a ring refills as a sweep. */
+.dial__segment.is-lit {
+  fill: var(--segment-lit);
+  transition-delay: calc(var(--i, 0) * 9ms);
+}
+
+.dial__segment[data-band="0"] {
+  --segment-lit: color-mix(in oklab, var(--color-orange) calc(var(--t, 0) * 100%), var(--color-orange-deep));
+}
+
+.dial__segment[data-band="1"] {
+  --segment-lit: color-mix(in oklab, var(--color-amber) calc(var(--t, 0) * 100%), var(--color-orange));
+}
+
+.dial__segment[data-band="2"] {
+  --segment-lit: color-mix(in oklab, var(--color-yellow) calc(var(--t, 0) * 100%), var(--color-amber));
+}
+
+/* The leading segment moves every tick, so it must not wait for the sweep delay. */
+.dial__segment.is-lit.is-head {
+  fill: var(--color-white);
+  transition-delay: 0ms;
+}
+
+.dial__value {
+  position: relative;
+  display: flex;
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  font-size: 31cqi;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+  filter: drop-shadow(0 0 0.2em var(--color-orange-glow));
+}
+
+.dial__digit {
+  display: inline-grid;
+  justify-items: center;
+  min-width: 0.5em;
+  perspective: 3em;
+}
+
+.dial__glyph {
+  grid-area: 1 / 1;
+  color: var(--color-amber);
+  backface-visibility: hidden;
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .dial__glyph {
+    background: linear-gradient(180deg, var(--color-yellow) 15%, var(--color-orange) 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.dial__label {
+  position: relative;
+  margin-block-start: 0.15rem;
+  padding-inline-start: 0.16em; /* balances the trailing letter-spacing */
+  font-size: clamp(0.6875rem, 8cqi, 0.875rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-on-night-soft);
+}
+
+@media (min-width: 48rem) {
+  .countdown__heading {
+    gap: var(--space-3);
+    letter-spacing: 0.18em;
+  }
+
+  .countdown__heading::before,
+  .countdown__heading::after {
+    width: 1.75rem;
+  }
+
+  .countdown__dials {
+    grid-template-columns: repeat(4, minmax(0, 12rem));
+    gap: var(--space-5);
+  }
+}

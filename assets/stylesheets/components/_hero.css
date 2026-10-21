@@ -1,1 +1,325 @@
-/* hero: filled by a later task */
+/* Hero: halftone canvas behind, 3D-tilting logo, tagline, countdown (_countdown.css), CTA.
+   The fixed nav overlays the top, so the content starts below --nav-height once JS is on.
+   Height: a full screen, capped so very tall viewports do not produce a mostly empty hero. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: min(100vh, 68rem);
+  min-height: min(100svh, 68rem);
+  padding-block: var(--space-6) var(--space-3);
+  overflow: clip;
+  background: var(--color-paper);
+}
+
+.js .hero {
+  padding-block-start: calc(var(--nav-height) + var(--space-3));
+}
+
+.hero__waves {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.hero__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-7);
+}
+
+/* Brand: logo, tagline, organisers */
+.hero__brand {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+
+.hero__logo-stage {
+  width: clamp(12rem, 58vw, 16rem);
+  perspective: 56rem;
+}
+
+.hero__logo {
+  position: relative;
+  display: grid;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
+}
+
+.hero__logo > * {
+  grid-area: 1 / 1;
+}
+
+.hero__logo > [data-tilt-depth] {
+  transform: translate3d(var(--layer-x, 0px), var(--layer-y, 0px), var(--tilt-z, 0px));
+}
+
+.hero__logo-image {
+  width: 100%;
+}
+
+/* Slowly turning segmented ring behind the logo that echoes the countdown dials. The canvas keeps
+   dots off the stage (data-halftone-clear). */
+.hero__logo-halo {
+  position: absolute; /* out of flow so it never sizes the logo */
+  inset: -25%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero__logo-halo::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--color-orange) 0deg 1.5deg, transparent 1.5deg 6deg);
+  /* masks only read alpha */
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 0.6rem), var(--color-ink) calc(100% - 0.55rem));
+  mask: radial-gradient(closest-side, transparent calc(100% - 0.6rem), var(--color-ink) calc(100% - 0.55rem));
+  opacity: 0.4;
+  animation: hero-spin 90s linear infinite;
+}
+
+/* Soft silhouette that parallaxes against the tilt. */
+.hero__logo-shadow {
+  --layer-x: calc(var(--tilt-nx, 0) * -14px);
+  --layer-y: calc(var(--tilt-ny, 0) * -10px + 0.9rem);
+  filter: blur(10px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.hero__logo-shadow::before,
+.hero__logo-glare {
+  -webkit-mask: url("../../images/logos/power_up_run_logo.png") center / contain no-repeat;
+  mask: url("../../images/logos/power_up_run_logo.png") center / contain no-repeat;
+}
+
+.hero__logo-shadow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink);
+}
+
+/* Shine clipped to the logo; it follows the pointer and strengthens with the tilt. */
+.hero__logo-glare {
+  background: radial-gradient(
+    circle at calc(50% + var(--tilt-nx, 0) * 45%) calc(50% + var(--tilt-ny, 0) * 45%),
+    var(--color-shine),
+    transparent 55%
+  );
+  opacity: var(--tilt-glare, 0);
+  pointer-events: none;
+}
+
+/* Touch screens without usable device orientation */
+.hero__logo.is-floating {
+  animation: hero-float 8s ease-in-out infinite;
+}
+
+.hero__copy {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+}
+
+.hero__tagline {
+  font-family: var(--font-display);
+  font-size: var(--step-4);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--color-orange-deep);
+  transform: skewX(-6deg);
+}
+
+.hero__tagline span {
+  display: block;
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .hero__tagline {
+    background: linear-gradient(100deg, var(--color-orange-deep) 20%, var(--color-orange));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.hero__organisers {
+  max-width: 32ch;
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1.5;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+/* CTA: skewed button joined to a skewed date tag. Stacked as a stepped pair on phones, side by
+   side from 48rem. */
+.hero__cta {
+  display: grid;
+  justify-content: center;
+  margin-block-start: var(--space-6);
+}
+
+.hero__date {
+  --skew: -12deg;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-inline-end: 0.65rem; /* keeps the slanted right edges in line with the button's */
+  padding-inline: var(--space-4);
+  background: var(--color-orange-deep);
+  color: var(--color-white);
+  transform: skewX(var(--skew));
+}
+
+.hero__date-content {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  font-family: var(--font-display);
+  font-size: 1.5rem; /* 24px: large text for white on orange-deep */
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transform: skewX(calc(var(--skew) * -1));
+}
+
+.hero__date-day {
+  font-size: 1.75rem;
+}
+
+/* Scroll cue */
+.hero__scroll {
+  align-self: center;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin-block-start: var(--space-6);
+  padding: var(--space-1);
+  color: var(--color-ink-soft);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.hero__scroll:hover,
+.hero__scroll:focus-visible {
+  color: var(--color-orange-deep);
+}
+
+.hero__scroll-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: hero-nudge 1.8s var(--ease-out) infinite;
+}
+
+@media (min-width: 48rem) {
+  .hero__cta {
+    grid-auto-flow: column;
+    align-items: stretch;
+    gap: 0.3rem;
+  }
+
+  .hero__date {
+    justify-self: auto;
+    min-height: 3.5rem;
+    margin-inline-end: 0;
+    padding-inline: var(--space-5);
+  }
+
+  .hero__date-day {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .hero__brand {
+    grid-template-columns: auto minmax(0, 30rem);
+    align-items: center;
+    justify-content: center;
+    justify-items: start;
+    column-gap: var(--space-8);
+    text-align: start;
+  }
+
+  .hero__inner {
+    gap: var(--space-6);
+  }
+
+  .hero__logo-stage {
+    width: 18rem;
+  }
+
+  .hero__copy {
+    justify-items: start;
+  }
+
+  .hero__tagline {
+    font-size: var(--step-5);
+  }
+
+  .hero__organisers {
+    font-size: var(--step-0);
+  }
+
+  .hero__cta {
+    margin-block-start: var(--space-5);
+  }
+
+  .hero__scroll {
+    margin-block-start: var(--space-4);
+  }
+}
+
+@keyframes hero-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: rotateX(5deg) rotateY(-7deg) translateY(0);
+  }
+
+  50% {
+    transform: rotateX(-4deg) rotateY(7deg) translateY(-0.5rem);
+  }
+}
+
+@keyframes hero-nudge {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(-3px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(4px);
+  }
+}
