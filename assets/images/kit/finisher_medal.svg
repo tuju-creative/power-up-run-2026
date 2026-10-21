@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="medal-title">
+  <title id="medal-title">Finisher medal on an orange and yellow ribbon, with an arrow mark in the centre</title>
+  <!-- ribbon -->
+  <polygon points="56,4 100,4 134,100 96,100" fill="#E8642A"/>
+  <polygon points="184,4 140,4 106,100 144,100" fill="#D2491A"/>
+  <polygon points="74,4 82,4 114,100 106,100" fill="#FFD200"/>
+  <polygon points="166,4 158,4 126,100 134,100" fill="#FFD200"/>
+  <!-- bail -->
+  <rect x="106" y="90" width="28" height="22" fill="#1E1B18"/>
+  <rect x="113" y="97" width="14" height="10" fill="#FFFBF7"/>
+  <!-- disc -->
+  <circle cx="120" cy="164" r="68" fill="#F5A623"/>
+  <circle cx="120" cy="164" r="68" fill="none" stroke="#1E1B18" stroke-width="6"/>
+  <circle cx="120" cy="164" r="58" fill="none" stroke="#FFD200" stroke-width="8" stroke-dasharray="4.5 7.6"/>
+  <circle cx="120" cy="164" r="46" fill="#FFD200"/>
+  <circle cx="120" cy="164" r="46" fill="none" stroke="#1E1B18" stroke-width="4"/>
+  <!-- arrow mark -->
+  <path d="M120 130 L92 164 H110 V194 H130 V164 H148 Z" fill="#E8642A"/>
+  <path d="M120 130 L148 164 H130 V194 H120 Z" fill="#D2491A"/>
+  <!-- shine -->
+  <path d="M70 140 A56 56 0 0 1 112 106" fill="none" stroke="#FFFBF7" stroke-width="6" opacity="0.7"/>
+</svg>

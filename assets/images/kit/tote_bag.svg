@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="tote-title">
+  <title id="tote-title">Natural canvas tote bag with an orange arrow print</title>
+  <!-- handles -->
+  <path d="M84 92 V64 C84 20 156 20 156 64 V92" fill="none" stroke="#C9B6A0" stroke-width="12"/>
+  <path d="M84 92 V64 C84 20 156 20 156 64 V92" fill="none" stroke="#EADFD6" stroke-width="6"/>
+  <!-- bag -->
+  <polygon points="50,84 190,84 200,226 40,226" fill="#F3E9DD"/>
+  <polygon points="150,84 190,84 200,226 164,226" fill="#EADFD6"/>
+  <polygon points="50,84 190,84 190,102 50,102" fill="#E3D4C3"/>
+  <path d="M50 94 H190" stroke="#C9B6A0" stroke-width="2" stroke-dasharray="6 5"/>
+  <!-- bottom seam -->
+  <path d="M42 214 H198" stroke="#C9B6A0" stroke-width="2" stroke-dasharray="6 5"/>
+  <!-- print -->
+  <path d="M118 120 L88 156 H106 V182 H130 V156 H148 Z" fill="#E8642A"/>
+  <path d="M118 120 L148 156 H130 V182 H118 Z" fill="#D2491A"/>
+  <rect x="90" y="190" width="56" height="7" fill="#E8642A"/>
+  <rect x="100" y="203" width="36" height="5" fill="#F5A623"/>
+</svg>

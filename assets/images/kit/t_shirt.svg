@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="tee-title">
+  <title id="tee-title">Orange POWER UP RUN event T-shirt with an arrow mark on the chest</title>
+  <!-- body and sleeves -->
+  <path d="M90 36 L48 54 L16 112 L56 134 L66 116 V210 H174 V116 L184 134 L224 112 L192 54 L150 36 Q120 74 90 36 Z" fill="#E8642A"/>
+  <!-- shading: right side and under-arm folds -->
+  <path d="M150 36 L192 54 L224 112 L184 134 L174 116 V210 H152 V60 Z" fill="#D2491A"/>
+  <path d="M66 116 L56 134 L16 112 L24 98 Z" fill="#D2491A" opacity="0.55"/>
+  <!-- sleeve cuffs -->
+  <path d="M16 112 L56 134 L50 146 L8 124 Z" fill="#FFD200"/>
+  <path d="M224 112 L184 134 L190 146 L232 124 Z" fill="#F5A623"/>
+  <!-- hem -->
+  <rect x="66" y="198" width="108" height="12" fill="#D2491A"/>
+  <!-- collar -->
+  <path d="M90 36 Q120 74 150 36 L150 30 Q120 64 90 30 Z" fill="#1E1B18"/>
+  <path d="M90 30 Q120 64 150 30 Q120 40 90 30 Z" fill="#5A534D"/>
+  <!-- chest print: arrow mark and lettering bars -->
+  <path d="M120 78 L90 112 H108 V140 H132 V112 H150 Z" fill="#FFFBF7"/>
+  <rect x="94" y="150" width="52" height="8" fill="#FFD200"/>
+  <rect x="100" y="164" width="40" height="5" fill="#FFFBF7"/>
+  <rect x="106" y="174" width="28" height="5" fill="#FFFBF7" opacity="0.7"/>
+</svg>

@@ -1,1 +1,167 @@
-/* runner_kit: filled by a later task */
+/* Runner's kit: four square tiles (two columns on phones, four from 64rem). The object inside
+   each tile sits on a 3D stage and lifts and turns on hover, keyboard focus or tap (the
+   `is-active` class from kit_controller). The medal spins a full turn instead. The reveal
+   wrappers (li) own their own transform, so every 3D effect lives on inner elements. */
+
+.kit {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6) var(--space-5);
+  padding-inline-end: 0.75rem; /* room for the hard shadow so it never causes overflow */
+  padding-block-end: 0.75rem;
+}
+
+.kit-figure {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.kit-tile {
+  --shadow: 0.25rem;
+  position: relative;
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--color-line) 38%, var(--color-paper));
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow) var(--shadow) 0 var(--color-orange);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: box-shadow var(--duration-base) var(--ease-out);
+}
+
+/* A strip of orange to the top edge, in the same language as the section heading bar. */
+.kit-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 0.375rem;
+  background: linear-gradient(90deg, var(--color-orange), var(--color-amber));
+}
+
+.kit-tile__stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  perspective: 700px;
+  perspective-origin: 50% 40%;
+}
+
+.kit-tile__object {
+  width: 74%;
+  aspect-ratio: 1;
+  margin-block: 0.75rem 0;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.kit-tile__image {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.kit-tile__floor {
+  position: absolute;
+  inset-inline: 22%;
+  inset-block-end: 11%;
+  height: 0.375rem;
+  background: var(--color-ink);
+  opacity: 0.14;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out);
+}
+
+/* Raised state: keyboard focus, tap (is-active) and, for mouse users, hover. */
+.kit-tile:focus-visible,
+.kit-tile.is-active {
+  --shadow: 0.625rem;
+}
+
+.kit-tile:focus-visible .kit-tile__object,
+.kit-tile.is-active .kit-tile__object {
+  transform: translateZ(60px) rotateY(-14deg) rotateX(6deg);
+}
+
+.kit-tile:focus-visible .kit-tile__floor,
+.kit-tile.is-active .kit-tile__floor {
+  transform: scaleX(0.7);
+  opacity: 0.08;
+}
+
+.kit-tile--medal:focus-visible .kit-tile__object,
+.kit-tile--medal.is-active .kit-tile__object {
+  transform: translateZ(60px);
+  animation: kit-spin 1.2s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .kit-tile:hover {
+    --shadow: 0.625rem;
+  }
+
+  .kit-tile:hover .kit-tile__object {
+    transform: translateZ(60px) rotateY(-14deg) rotateX(6deg);
+  }
+
+  .kit-tile:hover .kit-tile__floor {
+    transform: scaleX(0.7);
+    opacity: 0.08;
+  }
+
+  .kit-tile--medal:hover .kit-tile__object {
+    transform: translateZ(60px);
+    animation: kit-spin 1.2s var(--ease-out);
+  }
+}
+
+@keyframes kit-spin {
+  from { transform: translateZ(60px) rotateY(0deg); }
+  to { transform: translateZ(60px) rotateY(360deg); }
+}
+
+.kit-figure__caption {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@media (min-width: 48rem) {
+  .kit {
+    gap: var(--space-7) var(--space-6);
+    padding-inline-end: 1rem;
+  }
+
+  .kit-tile {
+    --shadow: 0.375rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .kit {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No spins and no swings: a still, slightly enlarged object instead. */
+  .kit-tile:focus-visible .kit-tile__object,
+  .kit-tile.is-active .kit-tile__object,
+  .kit-tile--medal:focus-visible .kit-tile__object,
+  .kit-tile--medal.is-active .kit-tile__object {
+    transform: scale(1.06);
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (hover: hover) {
+  .kit-tile:hover .kit-tile__object,
+  .kit-tile--medal:hover .kit-tile__object {
+    transform: scale(1.06);
+    animation: none;
+  }
+}

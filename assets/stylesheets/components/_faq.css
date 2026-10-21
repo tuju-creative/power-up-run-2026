@@ -1,1 +1,101 @@
-/* faq: filled by a later task */
+/* FAQ accordion on native <details>. Square rows with a hairline border; the open row gets an
+   orange bar on its left edge and the chevron turns. The height animation is done in
+   faq_controller (Web Animations API); without JS the rows simply open and close. */
+
+.faq {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 56rem;
+}
+
+.faq-item {
+  position: relative;
+  background: var(--color-white);
+  border: 1px solid var(--color-line);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+/* Orange bar, drawn in from the top when the row opens. */
+.faq-item::before {
+  content: "";
+  position: absolute;
+  inset-block: -1px;
+  inset-inline-start: -1px;
+  width: 0.375rem;
+  background: var(--color-orange);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.faq-item[open] {
+  border-color: var(--color-orange);
+}
+
+.faq-item[open]::before {
+  transform: scaleY(1);
+}
+
+.faq-item__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
+  font-size: var(--step-0);
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.faq-item__summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item__summary:focus-visible {
+  outline-offset: -3px;
+}
+
+.faq-item__chevron {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-orange-deep);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.faq-item[open] .faq-item__chevron {
+  transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+  .faq-item__summary:hover .faq-item__question {
+    color: var(--color-orange-deep);
+  }
+}
+
+.faq-item__question {
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.faq-item__answer {
+  padding: 0 var(--space-5) var(--space-5);
+  color: var(--color-ink-soft);
+  text-wrap: pretty;
+}
+
+@media (min-width: 48rem) {
+  .faq-item__summary {
+    min-height: 4rem;
+    padding-inline: var(--space-6) var(--space-5);
+    font-size: var(--step-1);
+  }
+
+  .faq-item__answer {
+    padding-inline: var(--space-6);
+    padding-block-end: var(--space-5);
+  }
+}
