@@ -58,8 +58,8 @@ assets/
   stylesheets/
     application.css             manifest (@import in order)
     tokens.css  base.css  layout.css
-    components/_nav.css _hero.css _countdown.css _button.css _section_heading.css
-               _category.css _schedule.css _route_map.css _runner_kit.css _faq.css _footer.css
+    components/nav.css hero.css countdown.css button.css section_heading.css
+               category.css schedule.css route_map.css runner_kit.css faq.css footer.css
   javascripts/
     application.js              boots controllers for every [data-controller]
     config/event.js             single source of event data

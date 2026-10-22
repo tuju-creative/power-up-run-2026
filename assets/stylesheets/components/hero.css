@@ -1,4 +1,4 @@
-/* Hero: halftone canvas behind, 3D-tilting logo, tagline, countdown (_countdown.css), CTA.
+/* Hero: halftone canvas behind, 3D-tilting logo, tagline, countdown (countdown.css), CTA.
    The fixed nav overlays the top, so the content starts below --nav-height once JS is on.
    Height: a full screen, capped so very tall viewports do not produce a mostly empty hero. */
 .hero {
