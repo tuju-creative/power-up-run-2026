@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Re-render the 1200x630 share card (assets/images/og_image.png) from bin/og_image.html.
+# Needs Google Chrome and Node 22 (via mise); fetches the Google Fonts while rendering.
+cd "$(dirname "$0")/.." || exit 1
+exec mise exec node@22.21.0 -- node bin/og_image.mjs "$@"

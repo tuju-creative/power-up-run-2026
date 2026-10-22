@@ -79,17 +79,19 @@
   color: var(--color-ink-soft);
 }
 
-.timeline__item:hover {
-  transform: translateX(0.5rem);
-}
+@media (hover: hover) {
+  .timeline__item:hover {
+    transform: translateX(0.5rem);
+  }
 
-.timeline__item:hover .timeline__node {
-  background: var(--color-yellow);
-  transition-delay: 0ms;
-}
+  .timeline__item:hover .timeline__node {
+    background: var(--color-yellow);
+    transition-delay: 0ms;
+  }
 
-.timeline__item:hover .timeline__time {
-  color: var(--color-orange-deep);
+  .timeline__item:hover .timeline__time {
+    color: var(--color-orange-deep);
+  }
 }
 
 /* ---- Runner illustration ---- */

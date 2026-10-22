@@ -31,9 +31,12 @@ export default class NavController {
     return this.element.classList.contains("is-open")
   }
 
+  // While the overlay menu is open the page behind it is inert (no focus, no clicks, hidden from
+  // assistive tech), so keyboard and screen reader users stay inside the menu.
   setOpen(open) {
     this.element.classList.toggle("is-open", open)
     document.documentElement.classList.toggle("nav-open", open)
+    document.querySelectorAll("main, body > footer").forEach((region) => { region.inert = open })
     this.toggle?.setAttribute("aria-expanded", String(open))
     this.toggle?.setAttribute("aria-label", open ? "Close menu" : "Open menu")
   }

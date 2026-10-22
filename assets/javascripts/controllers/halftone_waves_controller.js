@@ -175,8 +175,8 @@ export default class HalftoneWavesController {
     this.tone = new Float32Array(size)
   }
 
-  // Clear zones: re-measured when they resize, after fonts load and when a scroll reveal settles
-  // (reveal moves its element while it fades in). Rects are canvas-relative, so scrolling needs no
+  // Clear zones: re-measured when they resize, after fonts load and when a scroll reveal or the
+  // hero load-in animation settles (both move their element while it fades in). Rects are canvas-relative, so scrolling needs no
   // re-measure.
   watchClearZones() {
     const section = this.canvas.closest("section") ?? document.body
@@ -192,6 +192,9 @@ export default class HalftoneWavesController {
     document.fonts?.ready.then(remeasure)
     section.addEventListener("transitionend", (event) => {
       if (event.propertyName === "transform" && event.target.matches('[data-controller~="reveal"]')) remeasure()
+    })
+    section.addEventListener("animationend", (event) => {
+      if (event.animationName === "hero-load-in") remeasure()
     })
   }
 

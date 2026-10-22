@@ -30,6 +30,12 @@
   height: 100%;
 }
 
+/* Above-the-fold content loads in with CSS alone rather than scroll reveal, so it shows on first
+   paint without waiting for any module (and without JS). */
+.hero__load-in {
+  animation: hero-load-in var(--duration-slow) var(--ease-out) var(--load-delay, 0ms) both;
+}
+
 .hero__inner {
   flex: 1;
   display: flex;
@@ -291,6 +297,13 @@
 
   .hero__scroll {
     margin-block-start: var(--space-4);
+  }
+}
+
+@keyframes hero-load-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
   }
 }
 

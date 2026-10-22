@@ -1,7 +1,7 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import { EVENT } from "../../assets/javascripts/config/event.js"
-import { phaseAt, remaining } from "../../assets/javascripts/lib/event_phase.js"
+import { ctaLabel, phaseAt, remaining } from "../../assets/javascripts/lib/event_phase.js"
 
 const at = (iso) => new Date(iso)
 
@@ -69,4 +69,22 @@ test("remaining is zero for past targets and null", () => {
   assert.deepEqual(remaining(now, at("2026-10-01T00:00:00+08:00")), zero)
   assert.deepEqual(remaining(now, null), zero)
   assert.deepEqual(remaining(now, now), zero)
+})
+
+test("ctaLabel gives each phase a short and a long registration label", () => {
+  assert.equal(ctaLabel("before_registration"), "Get notified")
+  assert.equal(ctaLabel("before_registration", "long"), "Get notified on Luma")
+  assert.equal(ctaLabel("registration_open"), "Register now")
+  assert.equal(ctaLabel("registration_open", "long"), "Register on Luma")
+  assert.equal(ctaLabel("registration_closed"), "View event")
+  assert.equal(ctaLabel("registration_closed", "long"), "View event on Luma")
+  assert.equal(ctaLabel("race_day", "long"), "View event on Luma")
+})
+
+test("ctaLabel falls back to the short label and phaseAt uses it", () => {
+  assert.equal(ctaLabel("registration_open", "unknown"), "Register now")
+  for (const iso of ["2026-10-22T12:00:00+08:00", "2026-11-05T12:00:00+08:00", "2026-11-20T12:00:00+08:00", "2026-12-04T08:00:00+08:00"]) {
+    const result = phaseAt(at(iso))
+    assert.equal(result.ctaLabel, ctaLabel(result.phase))
+  }
 })

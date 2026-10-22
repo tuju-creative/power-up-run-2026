@@ -9,6 +9,15 @@
   <meta property="og:title" content="POWER UP RUN 2026">
   <meta property="og:description" content="Run Today. Brighten Tomorrow. Free 5KM Fun Run at KTPC Office, Kulim, 4 December 2026.">
   <meta property="og:type" content="website">
+  <!-- Relative for now: make og:image and twitter:image absolute once the Pages URL is known. -->
+  <meta property="og:image" content="assets/images/og_image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="POWER UP RUN 2026: Run today. Brighten tomorrow. 04 Dec 2026, KTPC Office, Kulim.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER UP RUN 2026">
+  <meta name="twitter:description" content="Run Today. Brighten Tomorrow. Free 5KM Fun Run at KTPC Office, Kulim, 4 December 2026.">
+  <meta name="twitter:image" content="assets/images/og_image.png">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +34,15 @@
     }, 4000);
   </script>
   <script type="module" src="assets/javascripts/application.js"></script>
+  <!-- Fetch the boot module's imports and the hero controllers in parallel rather than as a chain. -->
+  <link rel="modulepreload" href="assets/javascripts/config/event.js">
+  <link rel="modulepreload" href="assets/javascripts/lib/event_phase.js">
+  <link rel="modulepreload" href="assets/javascripts/lib/registration_links.js">
+  <link rel="modulepreload" href="assets/javascripts/lib/countdown_dial.js">
+  <link rel="modulepreload" href="assets/javascripts/controllers/nav_controller.js">
+  <link rel="modulepreload" href="assets/javascripts/controllers/countdown_controller.js">
+  <link rel="modulepreload" href="assets/javascripts/controllers/halftone_waves_controller.js">
+  <link rel="modulepreload" href="assets/javascripts/controllers/tilt_controller.js">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -60,7 +78,7 @@
 
       <div class="hero__inner container">
         <div class="hero__brand">
-          <div class="hero__logo-reveal" data-controller="reveal">
+          <div class="hero__logo-reveal hero__load-in">
             <div class="hero__logo-stage" data-halftone-clear>
               <div class="hero__logo" data-controller="tilt">
                 <span class="hero__logo-halo" data-tilt-depth="-70" aria-hidden="true"></span>
@@ -74,13 +92,13 @@
             </div>
           </div>
 
-          <div class="hero__copy" data-controller="reveal" data-reveal-delay="120" data-halftone-clear>
+          <div class="hero__copy hero__load-in" style="--load-delay: 120ms" data-halftone-clear>
             <p class="hero__tagline"><span>Run today.</span> <span>Brighten tomorrow.</span></p>
             <p class="hero__organisers">Organised by Kulim Technology Park Corporation (KTPC) &amp; NUR Power</p>
           </div>
         </div>
 
-        <div class="hero__countdown" data-controller="reveal" data-reveal-delay="240">
+        <div class="hero__countdown hero__load-in" style="--load-delay: 240ms">
           <div class="countdown" data-controller="countdown">
             <p class="countdown__heading" data-countdown-heading data-halftone-clear>Registration opens in</p>
             <ol class="countdown__dials" aria-hidden="true">
@@ -111,7 +129,7 @@
             <div class="hero__cta">
               <a class="button button--primary hero__button" href="https://luma.com/" target="_blank" rel="noopener" data-registration-link>
                 <span class="button__content">
-                  <span class="button__label" data-countdown-cta-label>Register now</span>
+                  <span class="button__label" data-registration-label="short">Register now</span>
                   <svg class="button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
                   <span class="visually-hidden">(opens in a new tab)</span>
                 </span>
@@ -206,7 +224,7 @@
         <div class="registration__cta" data-controller="reveal">
           <a class="button button--primary" href="https://luma.com/" target="_blank" rel="noopener" data-registration-link>
             <span class="button__content">
-              <span class="button__label">Register on Luma</span>
+              <span class="button__label" data-registration-label="long">Register on Luma</span>
               <svg class="button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
               <span class="visually-hidden">(opens in a new tab)</span>
             </span>
@@ -524,17 +542,17 @@
         <p class="footer__follow-label">Follow us</p>
         <ul class="footer__social">
           <li>
-            <a class="footer__social-link" href="#" aria-label="Facebook">
+            <a class="footer__social-link" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook (opens in a new tab)" data-social-link>
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.7V3.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.7V13h2.7v8h3.1z"/></svg>
             </a>
           </li>
           <li>
-            <a class="footer__social-link" href="#" aria-label="Instagram">
+            <a class="footer__social-link" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram (opens in a new tab)" data-social-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
             </a>
           </li>
           <li>
-            <a class="footer__social-link" href="#" aria-label="TikTok">
+            <a class="footer__social-link" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok (opens in a new tab)" data-social-link>
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.3 2.3 1.7 3.8 4 4v3.1c-1.4 0-2.8-.4-4-1.2v6.2c0 3.2-2.5 5.6-5.6 5.6S5.4 18.3 5.4 15.2s2.6-5.7 5.9-5.6v3.2c-1.4-.1-2.6.9-2.6 2.4 0 1.3 1 2.4 2.4 2.4 1.3 0 2.4-1 2.4-2.5V3h3.1z"/></svg>
             </a>
           </li>
@@ -544,7 +562,7 @@
           <p class="footer__cta-text">Run today. Brighten tomorrow.</p>
           <a class="button button--primary" href="https://luma.com/" target="_blank" rel="noopener" data-registration-link>
             <span class="button__content">
-              <span class="button__label">Register now</span>
+              <span class="button__label" data-registration-label="short">Register now</span>
               <svg class="button__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
               <span class="visually-hidden">(opens in a new tab)</span>
             </span>

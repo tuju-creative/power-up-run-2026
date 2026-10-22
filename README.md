@@ -23,8 +23,21 @@ Edit `registrationUrl` in `assets/javascripts/config/event.js`. At load, every
 when JavaScript is off, so update the `https://luma.com/` placeholder there too (search for
 `data-registration-link`).
 
+Link labels follow the event phase (`ctaLabel` in `assets/javascripts/lib/event_phase.js`): "Get
+notified" before 2 Nov, "Register now" while registration is open, "View event" after it closes.
+Each link's `[data-registration-label]` value picks the short or long ("... on Luma") wording; the
+text in `index.html` is the no-JS default.
+
 Other event data (dates, schedule, capacity, contact) lives in the same file. The footer contact
 details in `index.html` mirror `EVENT.contact`; update both.
+
+## Placeholders to replace before launch
+
+- Social links: the footer icons (`data-social-link` in `index.html`) point at the Facebook,
+  Instagram and TikTok home pages until the event's own profile URLs exist.
+- Share image: `og:image` and `twitter:image` use the relative path `assets/images/og_image.png`.
+  Most link previews need an absolute URL, so change both to the full GitHub Pages URL once it is
+  known. Re-render the card with `bin/og_image` (source: `bin/og_image.html`).
 
 ## Layout
 

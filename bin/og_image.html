@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>POWER UP RUN 2026 share card</title>
+  <!-- Source for assets/images/og_image.png (1200x630). Render with bin/og_image. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="../assets/stylesheets/tokens.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      position: relative;
+      background: var(--color-paper);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+    }
+    .dots { position: absolute; inset: 0; }
+    .card {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      align-items: center;
+      gap: 64px;
+      padding: 0 96px;
+    }
+    .logo { width: 300px; filter: drop-shadow(0 18px 24px rgb(30 27 24 / 0.18)); }
+    .copy { display: grid; gap: 28px; justify-items: start; }
+    .tagline {
+      font-family: var(--font-display);
+      font-size: 92px;
+      line-height: 0.98;
+      text-transform: uppercase;
+      transform: skewX(-6deg);
+      background: linear-gradient(100deg, var(--color-orange-deep) 20%, var(--color-orange));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tagline span { display: block; }
+    .meta {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--color-white);
+    }
+    .meta > span {
+      display: flex;
+      align-items: center;
+      padding: 0 22px;
+      height: 58px;
+      background: var(--color-orange-deep);
+      transform: skewX(-12deg);
+    }
+    .meta > span > span { transform: skewX(12deg); }
+    .meta .date { font-size: 34px; }
+    .meta .place { font-size: 26px; background: var(--color-ink); }
+    .sub { font-size: 22px; font-weight: 600; color: var(--color-ink-soft); }
+  </style>
+</head>
+<body>
+  <svg class="dots" viewBox="0 0 1200 630" aria-hidden="true"></svg>
+  <div class="card">
+    <img class="logo" src="../assets/images/logos/power_up_run_logo.png" alt="" width="300" height="298">
+    <div class="copy">
+      <p class="tagline"><span>Run today.</span><span>Brighten tomorrow.</span></p>
+      <p class="meta"><span class="date"><span>04 Dec 2026</span></span><span class="place"><span>KTPC Office, Kulim</span></span></p>
+      <p class="sub">Free 5KM Fun Run &middot; Registration 2&ndash;16 Nov 2026</p>
+    </div>
+  </div>
+  <script>
+    // Halftone ribbons: a hex grid of dots sized by distance from two sine-warped centre lines,
+    // tinted orange-deep -> yellow along each ribbon (the hero canvas, frozen). Dots fade out
+    // around the logo and copy so the text stays clean. bin/og_image waits for window.drawn.
+    addEventListener("load", () => document.fonts.ready.then(draw))
+    function draw() {
+    const feather = 36
+    const zones = [...document.querySelectorAll(".logo, .tagline span, .meta, .sub")].map((el) => el.getBoundingClientRect())
+    const clearance = (x, y) => Math.min(1, ...zones.map((z) => {
+      const dx = Math.max(z.left - x, 0, x - z.right)
+      const dy = Math.max(z.top - y, 0, y - z.bottom)
+      const t = Math.min(1, Math.hypot(dx, dy) / feather)
+      return t * t * (3 - 2 * t)
+    }))
+    const styles = getComputedStyle(document.documentElement)
+    const ramp = ["--color-orange-deep", "--color-orange", "--color-amber", "--color-yellow"].map((t) => styles.getPropertyValue(t).trim())
+    const ribbons = [
+      { y0: -260, y1: 330, width: 70, amp: 26, freq: 1.1, phase: 0.4, toneStart: 0.9, toneEnd: 0 },
+      { y0: 470, y1: 760, width: 80, amp: 30, freq: 0.9, phase: 2.1, toneStart: 0, toneEnd: 1 }
+    ]
+    const svg = document.querySelector(".dots")
+    const spacing = 12
+    let markup = ""
+    for (let row = 0; row * spacing * 0.866 < 640; row++) {
+      for (let col = 0; col * spacing < 1212; col++) {
+        const x = col * spacing + (row % 2) * spacing / 2
+        const y = row * spacing * 0.866
+        const u = x / 1200
+        let best = 0, tone = 0
+        for (const r of ribbons) {
+          const centre = r.y0 + (r.y1 - r.y0) * u + r.amp * Math.sin(Math.PI * 2 * r.freq * u + r.phase)
+          const d = (y - centre) / r.width
+          const value = Math.exp(-d * d * 1.4) * (0.45 + 0.55 * Math.pow(0.5 + 0.5 * Math.sin(d * 5 + u * 5), 2))
+          if (value > best) { best = value; tone = r.toneStart + (r.toneEnd - r.toneStart) * u }
+        }
+        const radius = spacing * 0.56 * Math.pow(best, 0.85) * clearance(x, y)
+        if (radius < 0.8) continue
+        const colour = ramp[Math.min(3, Math.max(0, Math.round(tone * 3)))]
+        markup += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${radius.toFixed(2)}" fill="${colour}"/>`
+      }
+    }
+    svg.innerHTML = markup
+    window.drawn = true
+    }
+  </script>
+</body>
+</html>

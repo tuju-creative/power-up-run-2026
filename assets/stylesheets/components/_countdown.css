@@ -86,11 +86,13 @@
     box-shadow var(--duration-base) var(--ease-out);
 }
 
-.dial:hover {
-  transform: rotateX(0deg) translateY(-0.3rem);
-  box-shadow:
-    0 0 0 0.3rem var(--color-paper),
-    0 1.75rem 2.5rem -1rem var(--color-orange-glow);
+@media (hover: hover) {
+  .dial:hover {
+    transform: rotateX(0deg) translateY(-0.3rem);
+    box-shadow:
+      0 0 0 0.3rem var(--color-paper),
+      0 1.75rem 2.5rem -1rem var(--color-orange-glow);
+  }
 }
 
 /* Inner bezel */

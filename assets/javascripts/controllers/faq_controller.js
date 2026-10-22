@@ -40,6 +40,7 @@ export default class FaqController {
     // The item's own height (borders included) while closed, so there is no jump at the start.
     const from = this.currentHeight(item) ?? item.offsetHeight
     this.cancel(item)
+    delete item.dataset.state // interrupting a close: it is no longer closing
     item.open = true
     if (this.reducedMotion.matches) return this.settle(item)
 

@@ -1,15 +1,16 @@
 import { phaseAt, remaining } from "../lib/event_phase.js"
+import { updateRegistrationLinks } from "../lib/registration_links.js"
 import { DIAL_MAX, SEGMENTS, countdownSummary, litSegments, msUntilNextSecond, pad2, segmentPath } from "../lib/countdown_dial.js"
 
-// Hero countdown: four segmented dials plus phase-driven heading and CTA label.
+// Hero countdown: four segmented dials plus a phase-driven heading.
 // Ticks on each wall-clock second and re-reads the phase every tick, so the heading, target and
-// CTA switch live at each boundary. The visible dials are aria-hidden; screen readers get
-// [data-countdown-summary], whose text only changes once a minute. It becomes a polite live
-// region on the first tick, after the initial render, so page load does not announce it.
+// every registration link label (lib/registration_links.js) switch live at each boundary. The
+// visible dials are aria-hidden; screen readers get [data-countdown-summary], plain visually
+// hidden text whose wording only changes once a minute. It is deliberately not a live region,
+// so nothing is announced while the page sits open.
 //
 // Targets: [data-countdown-heading], [data-countdown-unit] dials (each with
-// [data-countdown-ring] svg and [data-countdown-value]), [data-countdown-summary],
-// [data-countdown-cta-label].
+// [data-countdown-ring] svg and [data-countdown-value]), [data-countdown-summary].
 const SVG_NS = "http://www.w3.org/2000/svg"
 const RING = { cx: 100, cy: 100, inner: 80, outer: 97 }
 const TICK_SLACK_MS = 15 // land just after the second boundary so flooring reads the new second
@@ -33,7 +34,6 @@ export default class CountdownController {
   connect() {
     this.heading = this.element.querySelector("[data-countdown-heading]")
     this.summary = this.element.querySelector("[data-countdown-summary]")
-    this.ctaLabel = this.element.querySelector("[data-countdown-cta-label]")
     this.reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
     this.dials = [...this.element.querySelectorAll("[data-countdown-unit]")].map((element) => this.buildDial(element))
 
@@ -51,7 +51,6 @@ export default class CountdownController {
   // Ticking
 
   tick() {
-    this.summary?.setAttribute("aria-live", "polite")
     this.render(!this.reduceMotion.matches)
     this.schedule()
   }
@@ -67,14 +66,14 @@ export default class CountdownController {
 
   render(animate) {
     const now = new Date()
-    const { phase, target, heading, ctaLabel } = phaseAt(now)
+    const { phase, target, heading } = phaseAt(now)
     const time = remaining(now, target)
 
     if (phase !== this.phase) {
       this.phase = phase
       this.element.dataset.phase = phase
       if (this.heading) this.heading.textContent = heading
-      if (this.ctaLabel) this.ctaLabel.textContent = ctaLabel
+      updateRegistrationLinks(phase)
     }
 
     this.dials.forEach((dial) => {
