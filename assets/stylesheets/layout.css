@@ -9,6 +9,16 @@
   padding-block: var(--space-9);
 }
 
+/* Stacked sections share one band of space: without this the paper gap between two sections
+   is twice the section padding (about 22rem on desktop), which reads as a hole, not rhythm. */
+.section + .section {
+  padding-block-start: var(--space-8);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

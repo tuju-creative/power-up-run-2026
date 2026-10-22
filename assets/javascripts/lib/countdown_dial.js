@@ -20,17 +20,17 @@ export function msUntilNextSecond(nowMs) {
   return 1000 - (nowMs % 1000)
 }
 
-// "Registration opens in 10 days, 4 hours and 1 minute." Leading zero units are dropped and
-// seconds are left out, so the text only changes once a minute. Without a target the heading
-// stands alone ("It's race day!").
+// "Registration opens in 10 days, 4 hours and 1 minute." Zero units are left out ("2 hours",
+// not "2 hours and 0 minutes") and so are seconds, so the text only changes once a minute.
+// Without a target the heading stands alone ("It's race day!").
 export function countdownSummary(heading, time, hasTarget = true) {
   if (!hasTarget) return heading
 
-  const units = [["day", time.days], ["hour", time.hours], ["minute", time.minutes]]
-  const first = units.findIndex(([, value]) => value > 0)
-  if (first === -1) return `${heading} less than a minute.`
+  const words = [["day", time.days], ["hour", time.hours], ["minute", time.minutes]]
+    .filter(([, value]) => value > 0)
+    .map(([unit, value]) => `${value} ${unit}${value === 1 ? "" : "s"}`)
+  if (!words.length) return `${heading} less than a minute.`
 
-  const words = units.slice(first).map(([unit, value]) => `${value} ${unit}${value === 1 ? "" : "s"}`)
   return `${heading} ${joinWords(words)}.`
 }
 

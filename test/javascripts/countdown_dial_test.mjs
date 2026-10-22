@@ -52,10 +52,12 @@ test("countdownSummary reads days, hours and minutes", () => {
   assert.equal(countdownSummary("Registration opens in", time), "Registration opens in 10 days, 4 hours and 1 minute.")
 })
 
-test("countdownSummary drops leading zero units and keeps inner zeros", () => {
-  assert.equal(countdownSummary("Race day in", { days: 0, hours: 2, minutes: 0, seconds: 9 }), "Race day in 2 hours and 0 minutes.")
+test("countdownSummary leaves out every zero unit", () => {
+  assert.equal(countdownSummary("Race day in", { days: 0, hours: 2, minutes: 0, seconds: 9 }), "Race day in 2 hours.")
   assert.equal(countdownSummary("Race day in", { days: 0, hours: 0, minutes: 1, seconds: 0 }), "Race day in 1 minute.")
-  assert.equal(countdownSummary("Race day in", { days: 1, hours: 0, minutes: 0, seconds: 0 }), "Race day in 1 day, 0 hours and 0 minutes.")
+  assert.equal(countdownSummary("Race day in", { days: 1, hours: 0, minutes: 0, seconds: 0 }), "Race day in 1 day.")
+  assert.equal(countdownSummary("Race day in", { days: 3, hours: 0, minutes: 5, seconds: 0 }), "Race day in 3 days and 5 minutes.")
+  assert.equal(countdownSummary("Race day in", { days: 2, hours: 1, minutes: 0, seconds: 0 }), "Race day in 2 days and 1 hour.")
 })
 
 test("countdownSummary in the final minute and with no target", () => {

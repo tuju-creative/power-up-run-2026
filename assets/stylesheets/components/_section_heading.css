@@ -33,6 +33,13 @@
   text-wrap: balance;
 }
 
+.section-heading__subline {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
 /* Animated bar */
 .section-heading::after {
   content: "";

@@ -56,9 +56,3 @@
   --duration-base: 450ms;
   --duration-slow: 900ms;
 }
-
-@media (min-width: 90rem) {
-  :root {
-    --container-max: 80rem;
-  }
-}

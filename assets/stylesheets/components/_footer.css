@@ -33,24 +33,14 @@
 }
 
 .footer__logo {
-  display: block;
-  transition: transform var(--duration-base) var(--ease-out);
-}
-
-.footer__logo:hover,
-.footer__logo:focus-visible {
-  transform: translateY(-4px) scale(1.04);
-}
-
-.footer__logo img {
   width: auto;
 }
 
-.footer__logo--ktpc img {
+.footer__logo--ktpc {
   height: 2.75rem;
 }
 
-.footer__logo--nur img {
+.footer__logo--nur {
   height: 4.5rem;
 }
 
@@ -153,6 +143,7 @@
 
 .footer__cta {
   padding-block-start: var(--space-3);
+  padding-inline-start: 0.75rem; /* offsets the skew so the button's left edge lines up */
 }
 
 .footer__cta-text {

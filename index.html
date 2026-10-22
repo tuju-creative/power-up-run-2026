@@ -106,7 +106,7 @@
           </li>
             </ol>
             <!-- Without JS this line is shown instead of the dials; with JS it is the spoken summary. -->
-            <p class="countdown__summary" aria-live="polite" data-countdown-summary>Registration runs 2&ndash;16 November 2026. Race day is 4 December 2026.</p>
+            <p class="countdown__summary" data-countdown-summary>Registration runs 2&ndash;16 November 2026. Race day is 4 December 2026.</p>
 
             <div class="hero__cta">
               <a class="button button--primary hero__button" href="https://luma.com/" target="_blank" rel="noopener" data-registration-link>
@@ -222,7 +222,7 @@
         <div class="section-heading" data-controller="reveal">
           <p class="section-heading__eyebrow">Race day</p>
           <h2 class="section-heading__title" id="event-details-title">Event Details</h2>
-          <p class="event-details__subline"><time datetime="2026-12-04">Friday, 4 December 2026</time> &middot; KTPC Office, Kulim</p>
+          <p class="section-heading__subline"><time datetime="2026-12-04">Friday, 4 December 2026</time> &middot; <span class="nowrap">KTPC Office, Kulim</span></p>
         </div>
 
         <div class="event-details">
@@ -264,7 +264,7 @@
         <div class="section-heading" data-controller="reveal">
           <p class="section-heading__eyebrow">The course</p>
           <h2 class="section-heading__title" id="route-map-title">Route Map</h2>
-          <p class="route-map__subline">5KM loop starting and finishing at KTPC Office, Kulim</p>
+          <p class="section-heading__subline">5KM loop starting and finishing at <span class="nowrap">KTPC Office, Kulim</span></p>
         </div>
 
         <figure class="route-map">
@@ -362,7 +362,7 @@
               </li>
               <li class="route-legend__item">
                 <span class="route-legend__symbol" aria-hidden="true"><span class="route-start route-start--static"></span></span>
-                Start / Finish &middot; KTPC Office
+                <span>Start / Finish &middot; <span class="nowrap">KTPC Office</span></span>
               </li>
               <li class="route-legend__item">
                 <span class="route-legend__symbol" aria-hidden="true">
@@ -492,12 +492,8 @@
       <div class="footer__organisers-inner container">
         <p class="footer__label">Organised by</p>
         <div class="footer__logos">
-          <a class="footer__logo footer__logo--ktpc" href="#home">
-            <img src="assets/images/logos/ktpc_logo.png" alt="Kulim Technology Park Corporation (KTPC)" width="780" height="200">
-          </a>
-          <a class="footer__logo footer__logo--nur" href="#home">
-            <img src="assets/images/logos/nur_power_logo.png" alt="NUR Power" width="360" height="240">
-          </a>
+          <img class="footer__logo footer__logo--ktpc" src="assets/images/logos/ktpc_logo.png" alt="Kulim Technology Park Corporation (KTPC)" width="780" height="200" loading="lazy">
+          <img class="footer__logo footer__logo--nur" src="assets/images/logos/nur_power_logo.png" alt="NUR Power" width="360" height="240" loading="lazy">
         </div>
       </div>
     </div>

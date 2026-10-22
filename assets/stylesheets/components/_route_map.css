@@ -21,12 +21,6 @@
   margin: 0;
 }
 
-.route-map__subline {
-  font-size: var(--step-1);
-  font-weight: 600;
-  color: var(--color-ink-soft);
-}
-
 /* ---- Stage and plane ---- */
 .route-map__stage {
   perspective: 900px;

@@ -1,11 +1,5 @@
 /* Event details: race-day timeline beside a runner illustration. Mobile first: the
    illustration sits below the timeline and goes side by side from 64rem. */
-.event-details__subline {
-  font-size: var(--step-1);
-  font-weight: 600;
-  color: var(--color-ink-soft);
-}
-
 .event-details {
   display: grid;
   gap: var(--space-8);

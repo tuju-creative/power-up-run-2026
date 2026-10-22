@@ -5,12 +5,14 @@
 // - Pointer movement is tracked across the nearest [data-tilt-area] ancestor (or the element);
 //   leaving it eases back to rest.
 // - Touch screens: device orientation when it works without a permission prompt, otherwise an
-//   idle float (CSS class is-floating). Reduced motion: no tilt at all.
+//   idle float (CSS class is-floating). Reduced motion: no tilt at all, and switching the
+//   preference while the page is open turns the tilt off or back on.
 const MAX_DEGREES = 10
 const SMOOTHING = 0.12
 const REACH = 0.6 // full tilt at this share of the area's half-size from the element's centre
 const ORIENTATION_RANGE_DEGREES = 20
 const BASELINE_DRIFT = 0.02
+const TILT_PROPERTIES = ["--tilt-rx", "--tilt-ry", "--tilt-nx", "--tilt-ny", "--tilt-glare"]
 
 export default class TiltController {
   constructor(element) {
@@ -18,24 +20,50 @@ export default class TiltController {
   }
 
   connect() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    this.area = this.element.closest("[data-tilt-area]") ?? this.element
+    this.layers = [...this.element.querySelectorAll("[data-tilt-depth]")]
+    this.frame = this.frame.bind(this)
+    this.reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+    this.reduceMotion.addEventListener("change", () => this.sync())
+    this.sync()
+  }
 
-    this.element.querySelectorAll("[data-tilt-depth]").forEach((layer) => {
+  sync() {
+    if (this.reduceMotion.matches) this.stop()
+    else this.start()
+  }
+
+  start() {
+    if (this.listeners) return
+    this.listeners = new AbortController()
+    const options = { passive: true, signal: this.listeners.signal }
+    this.current = { x: 0, y: 0 }
+    this.target = { x: 0, y: 0 }
+
+    this.layers.forEach((layer) => {
       layer.style.setProperty("--tilt-z", `${Number(layer.dataset.tiltDepth) || 0}px`)
     })
 
-    this.area = this.element.closest("[data-tilt-area]") ?? this.element
-    this.current = { x: 0, y: 0 }
-    this.target = { x: 0, y: 0 }
-    this.frame = this.frame.bind(this)
-
     this.area.addEventListener("pointermove", (event) => {
       if (event.pointerType !== "touch") this.aimAt(event.clientX, event.clientY)
-    }, { passive: true })
-    this.area.addEventListener("pointerleave", () => this.aim(0, 0))
-    window.addEventListener("blur", () => this.aim(0, 0))
+    }, options)
+    this.area.addEventListener("pointerleave", () => this.aim(0, 0), options)
+    window.addEventListener("blur", () => this.aim(0, 0), options)
 
-    if (window.matchMedia("(hover: none)").matches) this.startTouchMode()
+    if (window.matchMedia("(hover: none)").matches) this.startTouchMode(options)
+  }
+
+  // Back to a flat, still logo.
+  stop() {
+    if (!this.listeners) return
+    this.listeners.abort()
+    this.listeners = null
+    cancelAnimationFrame(this.pending)
+    this.pending = null
+    this.baseline = null
+    this.element.classList.remove("is-floating")
+    TILT_PROPERTIES.forEach((property) => this.element.style.removeProperty(property))
+    this.layers.forEach((layer) => layer.style.removeProperty("--tilt-z"))
   }
 
   aimAt(clientX, clientY) {
@@ -74,12 +102,12 @@ export default class TiltController {
 
   // Touch: float until a real orientation reading arrives. iOS gates the event behind a
   // permission prompt (requestPermission), so it keeps the float there.
-  startTouchMode() {
+  startTouchMode(options) {
     this.element.classList.add("is-floating")
     const Orientation = window.DeviceOrientationEvent
     if (!Orientation || typeof Orientation.requestPermission === "function") return
 
-    window.addEventListener("deviceorientation", (event) => this.onOrientation(event), { passive: true })
+    window.addEventListener("deviceorientation", (event) => this.onOrientation(event), options)
   }
 
   onOrientation({ beta, gamma }) {

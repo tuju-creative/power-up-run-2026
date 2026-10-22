@@ -10,6 +10,7 @@ export default class NavController {
   connect() {
     this.toggle = this.element.querySelector("[data-nav-toggle]")
     this.links = [...this.element.querySelectorAll('a[href^="#"]')]
+    this.menuLinks = this.links.filter((link) => link.matches(".nav__link"))
 
     this.onScroll = this.onScroll.bind(this)
     this.onKeydown = this.onKeydown.bind(this)
@@ -64,8 +65,9 @@ export default class NavController {
     sections.forEach((section) => observer.observe(section))
   }
 
+  // Only the menu links carry aria-current; the brand link also points at #home.
   setCurrent(id) {
-    this.links.forEach((link) => {
+    this.menuLinks.forEach((link) => {
       if (link.getAttribute("href") === `#${id}`) {
         link.setAttribute("aria-current", "true")
       } else {

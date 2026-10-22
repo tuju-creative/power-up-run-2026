@@ -4,7 +4,8 @@ import { DIAL_MAX, SEGMENTS, countdownSummary, litSegments, msUntilNextSecond, p
 // Hero countdown: four segmented dials plus phase-driven heading and CTA label.
 // Ticks on each wall-clock second and re-reads the phase every tick, so the heading, target and
 // CTA switch live at each boundary. The visible dials are aria-hidden; screen readers get
-// [data-countdown-summary] (aria-live), whose text only changes once a minute.
+// [data-countdown-summary], whose text only changes once a minute. It becomes a polite live
+// region on the first tick, after the initial render, so page load does not announce it.
 //
 // Targets: [data-countdown-heading], [data-countdown-unit] dials (each with
 // [data-countdown-ring] svg and [data-countdown-value]), [data-countdown-summary],
@@ -50,6 +51,7 @@ export default class CountdownController {
   // Ticking
 
   tick() {
+    this.summary?.setAttribute("aria-live", "polite")
     this.render(!this.reduceMotion.matches)
     this.schedule()
   }

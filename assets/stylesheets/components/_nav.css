@@ -20,6 +20,21 @@
   box-shadow: 0 1px 0 var(--color-line);
 }
 
+/* Over the hero the bar stays see-through, but a paper fade keeps the halftone dots from
+   showing through behind the brand, links and burger. */
+.js .nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -1.5rem 0;
+  background: linear-gradient(to bottom, var(--color-paper) 60%, transparent);
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.js .nav.is-scrolled::before {
+  opacity: 0;
+}
+
 .nav__bar {
   position: relative;
   z-index: 2;
