@@ -7,11 +7,14 @@ on GitHub Pages. Plain HTML, CSS and ES modules: no build step, no dependencies.
 
 ```sh
 bin/server            # http://localhost:8000 (PORT=3000 bin/server to change)
-bin/screenshots       # headless Chrome shots at 320/375/768/1440 into tmp/screenshots/
+bin/screenshots       # full-page headless Chrome shots at 320/375/768/1440 into tmp/screenshots/
 mise exec node@22.21.0 -- node --test "test/javascripts/*_test.mjs"   # unit tests
 ```
 
-`bin/screenshots` also prints console errors and horizontal-overflow results.
+`bin/screenshots` scrolls through the page so scroll reveals fire, then saves a full-page PNG per
+width, checks for horizontal overflow and reports console errors and failed requests (non-zero
+exit on any problem). `--no-js` and `--reduce` shoot with JavaScript off or reduced motion on;
+`--widths=375,1440` limits the widths. Needs Google Chrome (or `CHROME=/path/to/chrome`).
 
 ## Change the Luma registration link
 
