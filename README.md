@@ -35,9 +35,9 @@ details in `index.html` mirror `EVENT.contact`; update both.
 
 - Social links: the footer icons (`data-social-link` in `index.html`) point at the Facebook,
   Instagram and TikTok home pages until the event's own profile URLs exist.
-- Share image: `og:image` and `twitter:image` use the relative path `assets/images/og_image.png`.
-  Most link previews need an absolute URL, so change both to the full GitHub Pages URL once it is
-  known. Re-render the card with `bin/og_image` (source: `bin/og_image.html`).
+- Share image: `og:image`, `twitter:image`, `og:url` and the canonical link use the absolute site URL
+  (https://power-up-run-26.rdzny.xyz). Update them if the domain changes. Re-render the card with
+  `bin/og_image` (source: `bin/og_image.html`).
 
 ## Layout
 
